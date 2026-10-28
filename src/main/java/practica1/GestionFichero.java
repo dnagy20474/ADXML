@@ -11,29 +11,53 @@ public class GestionFichero {
         Scanner teclado = new Scanner(System.in);
 
         // Variable para la opción del menú.
-        int opcion;
+        int opcion = 0;
 
-        try { // Control de Error para que no pete el programa y diga que le pasa.
-            // Mostramos al usuario el menú.
-            System.out.println("----------------");
-            System.out.println("      Menú      ");
-            System.out.println("----------------" + "\n");
+        do { // Bucle para que se repita hasta que seleccione 0.
+            try { // Control de Error para que no pete el programa y diga que le pasa.
+                // Mostramos al usuario el menú.
+                System.out.println("----------------");
+                System.out.println("      Menú      ");
+                System.out.println("----------------" + "\n");
 
-            System.out.println("1. Cargar los datos del CSV.");
-            System.out.println("2. Añadir alumno.");
-            System.out.println("3. Buscar alumno a partir de su id.");
-            System.out.println("4. Eliminar alumno a partir de su id.");
-            System.out.println("5. Modificar un alumno a partir de su id.");
-            System.out.println("6. Contar alumnos.");
-            System.out.println("7. Generar un nuevo archivo alumnos-[fecha-hora].csv");
-            System.out.println("0. Salir." + "\n");
+                System.out.println("1. Cargar los datos del CSV.");
+                System.out.println("2. Añadir alumno.");
+                System.out.println("3. Buscar alumno a partir de su id.");
+                System.out.println("4. Eliminar alumno a partir de su id.");
+                System.out.println("5. Modificar un alumno a partir de su id.");
+                System.out.println("6. Contar alumnos.");
+                System.out.println("7. Generar un nuevo archivo alumnos-[fecha-hora].csv");
+                System.out.println("0. Salir." + "\n");
 
-            // Pedimos al usuario una selección del menú.
-            System.out.println("Selecciona una opción del menú: ");
-            opcion = teclado.nextInt(); // Guardamos lo introducido en la variable de opcion.
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e);
-        }
+                // Condición para que no de error cuando introduzcas otro carrácter.
+                if (teclado.hasNextInt()) {
+                    // Pedimos al usuario una selección del menú.
+                    System.out.println("Selecciona una opción del menú: ");
+                    opcion = teclado.nextInt(); // Guardamos lo introducido en la variable de opcion.
+                } else {
+                    System.out.println("Tiene que ser un número entero, del 0 al 7!");
+                }
+
+                // Hacemos un Switch para comprobar la selección.
+                switch (opcion) {
+                    case 1 -> comprobarFichero("alumnos.csv");
+
+                }
+
+            } catch (Exception e) {
+                System.out.println("ERROR: " + e);
+            }
+        } while (opcion != 0);
+    }
+
+    // Método para añadir alumnos a esta clase.
+    public void anyadirAlumno() {
+
+    }
+
+    // Método para buscar alumno por su id.
+    public void buscarAlumno() {
+
     }
 
     // Método para generarFicheros, en el caso de que no esté.
@@ -52,7 +76,7 @@ public class GestionFichero {
     // Método para leer el fichero y comprobar si existe.
     public void comprobarFichero(String nombreFichero) {
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
-            String linea; // Variable para guardar lo leido del fichero.
+            String linea; // Variable para guardar lo leído del fichero.
 
             // Bucle while para recorrer el fichero.
             while ((linea = br.readLine()) != null) {
