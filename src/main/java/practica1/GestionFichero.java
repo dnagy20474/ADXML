@@ -41,7 +41,8 @@ public class GestionFichero {
                 // Hacemos un Switch para comprobar la selección.
                 switch (opcion) {
                     case 1 -> comprobarFichero("alumnos.csv");
-
+                    case 2 -> anyadirAlumno();
+                    case 3 -> buscarAlumno();
                 }
 
             } catch (Exception e) {
@@ -52,7 +53,10 @@ public class GestionFichero {
 
     // Método para añadir alumnos a esta clase.
     public void anyadirAlumno() {
+        // Creamos un ArrayList de Alumnos.
+        ArrayList<String> alumnos = new ArrayList<>();
 
+        // Pedimos al usuario
     }
 
     // Método para buscar alumno por su id.

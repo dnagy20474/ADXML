@@ -5,28 +5,28 @@ import java.util.*;
 public class GenerarListado {
 
     // Un atributo de Random para generar datos y orden.
-    Random r = new  Random();
+    static Random r = new  Random();
 
     // Atributo de Array para todos los nombres.
-    String[] nombres = {
+    static String[] nombres = {
             "Juan", "María", "Carlos", "Lucía", "Pedro",
             "Ana", "Miguel", "Laura", "David", "Sofía"
     };
 
     // Atributo de Array para todos los apellidos.
-    String[] apellidos = {
+    static String[] apellidos = {
             "García", "Martínez", "López", "Sánchez", "Pérez",
             "Gómez", "Fernández", "Rodríguez", "Navarro", "Torres"
     };
 
     // Atributo de Array para todas las províncias.
-    String[] provincias = {
+    static String[] provincias = {
             "Madrid", "Barcelona", "Valencia", "Sevilla",
             "Málaga", "Palma", "Bilbao", "Alicante"
     };
 
     // Método para generar los datos para el csv.
-    public void generarDatos() {
+    public static void generarDatos() {
 
         // Declaramos el Scanner para pedir al usuario cuantos alumnos quiere.
         Scanner teclado = new Scanner(System.in);
