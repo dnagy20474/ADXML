@@ -40,9 +40,10 @@ public class GestionFichero {
 
                 // Hacemos un Switch para comprobar la selección.
                 switch (opcion) {
+                    // Llamamos el método para comprobar el fichero.
                     case 1 -> comprobarFichero("alumnos.csv");
-                    case 2 -> anyadirAlumno();
-                    case 3 -> buscarAlumno();
+                    case 2 -> anyadirAlumno(); // Llamamos el método para añadir el alumno.
+                    case 3 -> buscarAlumno(); // Llamamos el método para buscar el alumno.
                 }
 
             } catch (Exception e) {
@@ -53,10 +54,26 @@ public class GestionFichero {
 
     // Método para añadir alumnos a esta clase.
     public void anyadirAlumno() {
-        // Creamos un ArrayList de Alumnos.
-        ArrayList<String> alumnos = new ArrayList<>();
+        // Declaramos un Scanner para usar inputs.
+        Scanner teclado = new Scanner(System.in);
 
-        // Pedimos al usuario
+        // Creamos un ArrayList de Alumnos.
+        ArrayList<Alumno> alumnos = new ArrayList<>();
+
+        // Creamos la variable de nuevoAlumno de la clase Alumno para poder añadirlo al ArrayList
+        Alumno nuevoAlumno = new Alumno("", "");
+
+        try {
+            System.out.println("Introduce el nombre del alumno: ");
+            nuevoAlumno.setNombre(teclado.next());
+
+            System.out.println("Introduce el apellido del alumno: ");
+            nuevoAlumno.setApellido(teclado.next());
+
+            System.out.println("Introduce el id del alumno: ");
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+        }
     }
 
     // Método para buscar alumno por su id.
