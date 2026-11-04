@@ -37,6 +37,7 @@ public class GestionFichero {
                     // Pedimos al usuario una selección del menú.
                     System.out.println("Selecciona una opción del menú: ");
                     opcion = teclado.nextInt(); // Guardamos lo introducido en la variable de opcion.
+                    teclado.nextLine();
                 } else {
                     System.out.println("Tiene que ser un número entero, del 0 al 7!");
                 }
@@ -103,11 +104,10 @@ public class GestionFichero {
             // Llamamos al método donde hemos leído el fichero .csv
             comprobarFichero(nombreFichero);
 
+            System.out.println("Se creó el fichero correctamente!"); // Mensaje de éxito.
         } catch (IOException e) {
             System.out.printf("ERROR al generar el fichero: %s%n ", e);
         }
-
-        System.out.println("Se creó el fichero correctamente!"); // Mensaje de éxito.
     }
 
     // Método para leer el fichero y comprobar si existe.
@@ -119,11 +119,11 @@ public class GestionFichero {
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(","); // Guardamos en un array cada dato del csv si la coma.
             }
+
+            System.out.println("Se han leído los datos!");// Mensaje de éxito.
         } catch (IOException e) {
             System.out.printf("ERROR de lectura: %s%n." +
                     "Seguramente necesites crear el fichero.", e);
         }
-
-        System.out.println("Se han leído los datos!");// Mensaje de éxito.
     }
 }
