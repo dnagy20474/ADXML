@@ -5,10 +5,13 @@ import java.util.*;
 
 public class GestionFichero {
 
-    public void menu() {
+    // Declaramos un Scanner para usar inputs.
+    Scanner teclado = new Scanner(System.in);
 
-        // Declaramos el Scanner.
-        Scanner teclado = new Scanner(System.in);
+    // Creamos un ArrayList de Alumnos.
+    ArrayList<Alumno> alumnos = new ArrayList<>();
+
+    public void menu() {
 
         // Variable para la opción del menú.
         int opcion = 0;
@@ -54,23 +57,27 @@ public class GestionFichero {
 
     // Método para añadir alumnos a esta clase.
     public void anyadirAlumno() {
-        // Declaramos un Scanner para usar inputs.
-        Scanner teclado = new Scanner(System.in);
-
-        // Creamos un ArrayList de Alumnos.
-        ArrayList<Alumno> alumnos = new ArrayList<>();
 
         // Creamos la variable de nuevoAlumno de la clase Alumno para poder añadirlo al ArrayList
-        Alumno nuevoAlumno = new Alumno("", "");
+        Alumno nuevoAlumno = new Alumno("", "", 0);
 
+        // Control de error try-catch
         try {
-            System.out.println("Introduce el nombre del alumno: ");
+            // Guardamos cada uno de los datos a la instancia de Alumno (nuevoAlumno).
+            System.out.print("Introduce el nombre del alumno: ");
             nuevoAlumno.setNombre(teclado.next());
 
-            System.out.println("Introduce el apellido del alumno: ");
+            System.out.print("Introduce el apellido del alumno: ");
             nuevoAlumno.setApellido(teclado.next());
 
-            System.out.println("Introduce el id del alumno: ");
+            System.out.print("Introduce el id del alumno: ");
+            nuevoAlumno.setIdAlumno(teclado.nextInt());
+
+            // Añadimos el objeto completo al ArrayList.
+            alumnos.add(nuevoAlumno);
+
+            System.out.println("\n" + "El alumno a sido añadido!");
+
         } catch (Exception e) {
             System.out.println("ERROR: " + e);
         }
@@ -78,7 +85,16 @@ public class GestionFichero {
 
     // Método para buscar alumno por su id.
     public void buscarAlumno() {
+        // Pedimos al usuario que alumno quiero según su ID.
+        System.out.print("Introduce el ID del alumno: ");
+        int idAlumno = teclado.nextInt(); // Guardamos el alumno elegido en la variable.
 
+        // Buscamos él id en el ArrayList.
+        for (Alumno alumno : alumnos) {
+            if (alumno.getIdAlumno() == idAlumno) {
+                System.out.println(alumno); // Mostramos el alumno específico.
+            }
+        }
     }
 
     // Método para generarFicheros, en el caso de que no esté.
