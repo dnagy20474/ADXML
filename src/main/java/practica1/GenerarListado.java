@@ -1,5 +1,6 @@
 package practica1;
 
+import java.io.*;
 import java.util.*;
 
 public class GenerarListado {
@@ -114,6 +115,17 @@ public class GenerarListado {
         // Mostramos todos los datos por pantalla con este bucle.
         for (int i = 0; i < datos.length; i++) {
             System.out.println(datos[i]);
+        }
+    }
+
+    public void generarFichero(String nombreFichero) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreFichero))) {
+
+            
+
+            System.out.println("Se creó el fichero correctamente!"); // Mensaje de éxito.
+        } catch (IOException e) {
+            System.out.printf("ERROR al generar el fichero: %s%n ", e);
         }
     }
 }

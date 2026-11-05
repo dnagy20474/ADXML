@@ -3,7 +3,7 @@ package practica1;
 import java.io.*;
 import java.util.*;
 
-public class GestionFichero {
+public class LeerCSV {
 
     // Declaramos un Scanner para usar inputs.
     Scanner teclado = new Scanner(System.in);
@@ -32,12 +32,16 @@ public class GestionFichero {
                 System.out.println("7. Generar un nuevo archivo alumnos-[fecha-hora].csv");
                 System.out.println("0. Salir." + "\n");
 
+                // Pedimos al usuario una selección del menú.
+                System.out.println("Selecciona una opción del menú: ");
+
                 // Condición para que no de error cuando introduzcas otro carrácter.
                 if (teclado.hasNextInt()) {
-                    // Pedimos al usuario una selección del menú.
-                    System.out.println("Selecciona una opción del menú: ");
-                    opcion = teclado.nextInt(); // Guardamos lo introducido en la variable de opcion.
+                    // Guardamos lo introducido en la variable de opcion.
+                    opcion = teclado.nextInt();
                     teclado.nextLine();
+
+                    continue; // Usamos el continue para que vuelva al principio del do-while.
                 } else {
                     System.out.println("Tiene que ser un número entero, del 0 al 7!");
                 }
@@ -98,21 +102,10 @@ public class GestionFichero {
         }
     }
 
-    // Método para generarFicheros, en el caso de que no esté.
-    public void generarFichero(String nombreFichero) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreFichero))) {
-            // Llamamos al método donde hemos leído el fichero .csv
-            comprobarFichero(nombreFichero);
-
-            System.out.println("Se creó el fichero correctamente!"); // Mensaje de éxito.
-        } catch (IOException e) {
-            System.out.printf("ERROR al generar el fichero: %s%n ", e);
-        }
-    }
-
     // Método para leer el fichero y comprobar si existe.
     public void comprobarFichero(String nombreFichero) {
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
+
             String linea; // Variable para guardar lo leído del fichero.
 
             // Bucle while para recorrer el fichero.
@@ -123,7 +116,7 @@ public class GestionFichero {
             System.out.println("Se han leído los datos!");// Mensaje de éxito.
         } catch (IOException e) {
             System.out.printf("ERROR de lectura: %s%n." +
-                    "Seguramente necesites crear el fichero.", e);
+                    "Seguramente necesites crear el fichero.", e, "\n");
         }
     }
 }
