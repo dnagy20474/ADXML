@@ -26,6 +26,12 @@ public class GenerarListado {
             "Málaga", "Palma", "Bilbao", "Alicante"
     };
 
+    // Atributo del nombre del fichero.
+    String nombreFichero = "alumnos.csv";
+
+    // Array para toda la clase, para añadir todos los datos.
+    static String[] datos;
+
     // Método para generar los datos para el csv.
     public static void generarDatos() {
 
@@ -39,7 +45,7 @@ public class GenerarListado {
         numAlumnos = teclado.nextInt(); // Guardamos lo introducido.
 
         // Array para guardar los datos generados para él .csv.
-        String[] datos = new String[numAlumnos];
+        datos = new String[numAlumnos];
 
         // Creamos un contador para el bucle.
         int contador = 0;
@@ -116,14 +122,25 @@ public class GenerarListado {
         for (int i = 0; i < datos.length; i++) {
             System.out.println(datos[i]);
         }
+
+        // Llamamos al método para escribir todos los datos al fichero .csv
+        generarFichero("alumnos.csv");
+
     }
 
-    public void generarFichero(String nombreFichero) {
+    public static void generarFichero(String nombreFichero) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreFichero))) {
 
-            
+            // Escribimos el Array en el fichero .csv.
+            for (String dato : datos) {
+                bw.write(dato);
+                bw.newLine();
+            }
 
-            System.out.println("Se creó el fichero correctamente!"); // Mensaje de éxito.
+            // Cerramos el fichero.
+            bw.close();
+
+            System.out.println("\n" + "Se creó el fichero correctamente!"); // Mensaje de éxito.
         } catch (IOException e) {
             System.out.printf("ERROR al generar el fichero: %s%n ", e);
         }

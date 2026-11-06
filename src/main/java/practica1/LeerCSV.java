@@ -41,7 +41,6 @@ public class LeerCSV {
                     opcion = teclado.nextInt();
                     teclado.nextLine();
 
-                    continue; // Usamos el continue para que vuelva al principio del do-while.
                 } else {
                     System.out.println("Tiene que ser un número entero, del 0 al 7!");
                 }
@@ -49,7 +48,7 @@ public class LeerCSV {
                 // Hacemos un Switch para comprobar la selección.
                 switch (opcion) {
                     // Llamamos el método para comprobar el fichero.
-                    case 1 -> comprobarFichero("alumnos.csv");
+                    case 1 -> cargarFichero("alumnos.csv");
                     case 2 -> anyadirAlumno(); // Llamamos el método para añadir el alumno.
                     case 3 -> buscarAlumno(); // Llamamos el método para buscar el alumno.
                 }
@@ -102,21 +101,48 @@ public class LeerCSV {
         }
     }
 
-    // Método para leer el fichero y comprobar si existe.
-    public void comprobarFichero(String nombreFichero) {
+    // Método para leer el fichero y cargar los alumnos.
+    public void cargarFichero(String nombreFichero) {
+
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
 
-            String linea; // Variable para guardar lo leído del fichero.
+            String linea;
 
-            // Bucle while para recorrer el fichero.
+            // Limpiamos el ArrayList para evitar duplicados al cargar.
+            alumnos.clear();
+
+            // Recorremos todas las líneas del fichero.
             while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(","); // Guardamos en un array cada dato del csv si la coma.
+
+                // Separamos los datos utilizando el punto y coma.
+                String[] datos = linea.split(";");
+
+                // Comprobamos que la línea tenga los datos necesarios.
+                if (datos.length >= 3) {
+
+                    // Creamos el objeto Alumno.
+                    Alumno nuevoAlumno = new Alumno(
+                            datos[1],
+                            datos[2],
+                            Integer.parseInt(datos[0])
+                    );
+
+                    // Añadimos el alumno al ArrayList.
+                    alumnos.add(nuevoAlumno);
+                }
             }
 
-            System.out.println("Se han leído los datos!");// Mensaje de éxito.
+            System.out.println("\n" + "¡Se han leído los datos correctamente!");
+            System.out.printf("Número de alumnos cargados: %s%n%n", alumnos.size());
+
         } catch (IOException e) {
-            System.out.printf("ERROR de lectura: %s%n." +
-                    "Seguramente necesites crear el fichero.", e, "\n");
+
+            System.out.printf("ERROR de lectura: %s%n", e);
+
+        } catch (NumberFormatException e) {
+
+            System.out.println("ERROR: El ID de algún alumno no es válido.");
+
         }
     }
 }
