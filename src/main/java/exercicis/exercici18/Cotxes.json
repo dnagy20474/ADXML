@@ -1,0 +1,5 @@
+[
+  { "marca": "Seat", "model": "Ibiza", "any": 2020, "electric": false },
+  { "marca": "Tesla", "model": "Model 3", "any": 2023, "electric": true },
+  { "marca": "Toyota", "model": "Yaris", "any": 2021, "electric": false }
+]
