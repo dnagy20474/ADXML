@@ -1,7 +1,6 @@
 package ud2.exercici1;
 
 import java.sql.*;
-import java.text.DateFormat;
 
 public class Exercici1 {
 
@@ -12,43 +11,66 @@ public class Exercici1 {
 
         System.out.println("Iniciant el programa...");
 
-        // Utilitzem try-with-resources per obrir la connexió de manera segura
-        try {
-            System.out.println("Intentant connectar a la base de dades...");
-
-            Connection conn = DriverManager.getConnection(url, usuari, contrasenya);
-
-            // Si la línia anterior falla, Java salta directament al 'catch' i aquesta línia NO s'executarà
+        // try-with-resources: la connexió es tanca sola a l'acabar el bloc
+        try (Connection conn = DriverManager.getConnection(url, usuari, contrasenya)) {
             System.out.println("Connexió establerta correctament!");
 
-        } catch (SQLException e) {
-            // Aquest bloc només s'executa si es llança una excepció de tipus SQLException
-            System.err.println("\n[ERROR] No s'ha pogut connectar a la base de dades.");
+            // 1) Inserim un usuari de prova
+            insertar(conn, 1, "Pepe", "pepe@correo.com", false, "2026-11-13 10:00:00", null);
 
-            // Propietats útils de l'objecte d'excepció (e):
+            // 2) Mostrem el contingut de la taula USUARIOS
+            listarUsuarios(conn);
+
+        } catch (SQLException e) {
+            System.err.println("\n[ERROR] No s'ha pogut connectar o executar la consulta.");
             System.err.println("Missatge de l'error: " + e.getMessage());
             System.err.println("Codi d'estat SQL: " + e.getSQLState());
             System.err.println("Codi d'error del proveïdor: " + e.getErrorCode());
-
-            // Imprimeix tota la traça de l'error per saber exactament en quina línia ha fallat
-            // e.printStackTrace();
-
         } finally {
-            // Aquest codi s'executarà SEMPRE
-            System.out.println("\nBloc 'finally': El programa ha acabat de gestionar l'intent de connexió.");
+            System.out.println("\nBloc 'finally': El programa ha acabat.");
         }
-        System.out.println("El programa continua viu gràcies al 'catch' i no s'ha penjat!");
     }
 
-    // Métode per a insertar dadas.
+    // Mètode per a inserir dades.
     public static void insertar(Connection conn, int idUsuario, String nombre, String email,
                                 boolean moroso, String fechaAlta, String fechaBaja) throws SQLException {
-        String sql = "INSERT INTO USUARIOS (idUsuario, nombre, email, moroso, fechaAlta, " +
-                "fechaBaja) " + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        // Control d'error.
-        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        // Fèiem l'insert amb el String a la taula USUARIOS.
+        String sql = "INSERT INTO USUARIOS (IdUsuario, Nombre, Email, Moroso, FechaAlta, FechaBaja) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            ps.setString(2, nombre);
+            ps.setString(3, email);
+            ps.setBoolean(4, moroso);
+            ps.setString(5, fechaAlta);
+            ps.setString(6, fechaBaja); // si és null, es guarda NULL
+
+            int filas = ps.executeUpdate();
+            System.out.println("Files inserides: " + filas);
+        } catch (SQLException e) {
+            // Per exemple, si l'IdUsuario ja existeix (clau duplicada)
+            System.err.println("No s'ha pogut inserir: " + e.getMessage());
+        }
+    }
+
+    // Mètode per a mostrar la taula USUARIOS.
+    public static void listarUsuarios(Connection conn) throws SQLException {
+        String sql = "SELECT IdUsuario, Nombre, Email, Moroso, FechaAlta, FechaBaja FROM USUARIOS";
+
+        try (Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            System.out.println("\n--- TAULA USUARIOS ---");
+            while (rs.next()) {
+                System.out.println(rs.getInt("IdUsuario") + " | "
+                        + rs.getString("Nombre") + " | "
+                        + rs.getString("Email") + " | "
+                        + rs.getBoolean("Moroso") + " | "
+                        + rs.getTimestamp("FechaAlta") + " | "
+                        + rs.getTimestamp("FechaBaja"));
+            }
         }
     }
 }

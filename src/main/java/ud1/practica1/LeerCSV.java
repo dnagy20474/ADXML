@@ -12,6 +12,12 @@ public class LeerCSV {
     // Creamos un ArrayList de Alumnos.
     ArrayList<Alumno> alumnos = new ArrayList<>();
 
+    // Variable para guardar el ID del alumno con el método leerEntero().
+    int idAlumno;
+
+    // Variable booleana para saber si ha encontrado el ID.
+    boolean encontrado;
+
     // Método auxiliar para leer números enteros correctamente.
     public int leerEntero(String mensaje) {
 
@@ -69,7 +75,7 @@ public class LeerCSV {
                     case 1 -> cargarFichero("alumnos.csv");
                     case 2 -> anyadirAlumno();
                     case 3 -> buscarAlumno();
-                    case 4 -> System.out.println("Método pendiente de implementar.");
+                    case 4 -> eliminarAlumno();
                     case 5 -> System.out.println("Método pendiente de implementar.");
                     case 6 -> System.out.println("Número de alumnos: " + alumnos.size());
                     case 7 -> System.out.println("Método pendiente de implementar.");
@@ -140,9 +146,11 @@ public class LeerCSV {
     // Método para buscar alumno por su ID.
     public void buscarAlumno() {
 
-        int idAlumno = leerEntero("Introduce el ID del alumno: ");
+        // Llamamos al método para comprobar el ID.
+        comprobarID();
 
-        boolean encontrado = false;
+        // Inicializamos la variable.
+        encontrado = false;
 
         // Buscamos el ID en el ArrayList.
         for (Alumno alumno : alumnos) {
@@ -155,6 +163,7 @@ public class LeerCSV {
             }
         }
 
+        // Comprobamos que se haya encontrado el ID.
         if (!encontrado) {
             System.out.println("No se ha encontrado ningún alumno con ese ID.");
         }
@@ -164,7 +173,7 @@ public class LeerCSV {
     public void cargarFichero(String nombreFichero) {
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
 
-            String linea;
+            String linea; // Variable auxiliar para leer las líneas del texto.
 
             // Limpiamos el ArrayList para evitar duplicados.
             alumnos.clear();
@@ -206,6 +215,42 @@ public class LeerCSV {
 
         } catch (IOException e) {
             System.out.println("ERROR de lectura: " + e.getMessage());
+        }
+    }
+
+    // Método para eliminar alumno a partir de su ID.
+    public void eliminarAlumno() {
+
+        // Llamamos al método para comprobar el ID.
+        comprobarID();
+
+        // Inicializamos la variable.
+        encontrado = false;
+
+        // Buscamos el ID en el ArrayList.
+        for (Alumno alumno : alumnos) {
+            if (alumno.getIdAlumno() == idAlumno) {
+
+                alumnos.remove(alumno);
+
+                encontrado = true;
+                break;
+            }
+        }
+
+        // Comprobamos que se haya encontrado el ID.
+        if (!encontrado) {
+            System.out.println("No se ha encontrado ningún alumno con ese ID.");
+        }
+    }
+
+    // Método para comprobar el estado del ID.
+    public void comprobarID() {
+
+        // Comprobamos que el ID no esté vacío.
+        while (teclado.hasNextInt() || teclado == null) {
+            System.out.println("ERROR: El nombre no puede estar vacío.");
+            idAlumno = leerEntero("Introduce el ID del alumno: ");
         }
     }
 }
